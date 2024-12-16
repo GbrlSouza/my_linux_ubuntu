@@ -19,6 +19,7 @@ jobs:
         sudo apt-get install -y genisoimage python3-pip
         pip install pykickstart
         curl https://rclone.org/install.sh | sudo bash
+        sudo dnf install -y livecd-tools  # Instala o livemedia-creator
 
     - name: Configure Rclone
       run: |
@@ -31,5 +32,4 @@ jobs:
         sudo livemedia-creator --ks=your-kickstart-file.ks --no-virt --resultdir=./output --image-name="GbrlSouza-Fedora.iso"
 
     - name: Upload to TeraBox
-      run: |
-        rclone copy ./output/GbrlSouza-Fedora.iso terabox:/my-folder/
+      run: rclone copy ./output/GbrlSouza-Fedora.iso terabox:/my-folder/
