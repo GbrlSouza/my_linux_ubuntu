@@ -1,4 +1,4 @@
-name: Build Fedora ISO
+name: Build Ubuntu ISO
 
 on:
   push:
@@ -13,19 +13,24 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install Docker
+    - name: Install required packages
       run: |
         sudo apt-get update
-        sudo apt-get install -y docker.io
-        sudo systemctl start docker
-        sudo systemctl enable docker
+        sudo apt-get install -y genisoimage python3-pip curl
+        pip install pykickstart
+        curl https://rclone.org/install.sh | sudo bash
 
-    - name: Build the ISO in a Fedora container
+    - name: Install Ubuntu Customization Kit
       run: |
-        docker run --rm -v $(pwd):/workspace -w /workspace fedora:latest bash -c "
-          sudo dnf install -y livecd-tools
-          sudo livemedia-creator --ks=your-kickstart-file.ks --no-virt --resultdir=/workspace/output --image-name='GbrlSouza-Fedora.iso'
-        "
+        sudo add-apt-repository ppa:uck-team/ppa
+        sudo apt-get update
+        sudo apt-get install -y uck
+
+    - name: Build Ubuntu ISO
+      run: |
+        mkdir -p ~/ubuntu-iso
+        cp -r /workspace/* ~/ubuntu-iso
+        uck-remaster --target ~/ubuntu-iso --name "GbrlSouza-Ubuntu"
 
     - name: Upload to TeraBox
-      run: rclone copy ./output/GbrlSouza-Fedora.iso terabox:/my-folder/
+      run: rclone copy ./output/GbrlSouza-Ubuntu.iso terabox:/my-folder/
