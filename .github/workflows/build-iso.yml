@@ -13,23 +13,19 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install dependencies
+    - name: Install Docker
       run: |
         sudo apt-get update
-        sudo apt-get install -y genisoimage python3-pip
-        pip install pykickstart
-        curl https://rclone.org/install.sh | sudo bash
-        sudo dnf install -y livecd-tools  # Instala o livemedia-creator
+        sudo apt-get install -y docker.io
+        sudo systemctl start docker
+        sudo systemctl enable docker
 
-    - name: Configure Rclone
+    - name: Build the ISO in a Fedora container
       run: |
-        mkdir -p ~/.config/rclone
-        echo "${{ secrets.RCLONE_CONFIG }}" > ~/.config/rclone/rclone.conf
-
-    - name: Build the ISO
-      run: |
-        sudo mkdir output
-        sudo livemedia-creator --ks=your-kickstart-file.ks --no-virt --resultdir=./output --image-name="GbrlSouza-Fedora.iso"
+        docker run --rm -v $(pwd):/workspace -w /workspace fedora:latest bash -c "
+          sudo dnf install -y livecd-tools
+          sudo livemedia-creator --ks=your-kickstart-file.ks --no-virt --resultdir=/workspace/output --image-name='GbrlSouza-Fedora.iso'
+        "
 
     - name: Upload to TeraBox
       run: rclone copy ./output/GbrlSouza-Fedora.iso terabox:/my-folder/
