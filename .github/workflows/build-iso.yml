@@ -1,4 +1,4 @@
-name: Build Custom Ubuntu ISO
+name: Create ISO
 
 on:
   push:
@@ -6,33 +6,24 @@ on:
       - main
 
 jobs:
-  build-iso:
+  create-iso:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Faça o checkout do repositório
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    # 2. Instale o cubic (Ubuntu Custom ISO Creator)
-    - name: Install cubic
-      run: |
-        sudo apt-add-repository -y ppa:cubic-wizard/release
-        sudo apt-get update
-        sudo apt-get install -y cubic
+      - name: Install mkisofs
+        run: sudo apt-get install genisoimage
 
-    # 3. Crie o diretório de trabalho para a ISO personalizada
-    - name: Setup working directory
-      run: |
-        mkdir -p ~/custom-ubuntu-iso
-        cp -r /workspace/* ~/custom-ubuntu-iso
-
-    # 4. Crie a ISO com o cubic
-    - name: Build the custom Ubuntu ISO
-      run: |
-        cubic ~/custom-ubuntu-iso --name "GbrlSouza-Ubuntu"
-
-    # 5. Enviar a ISO gerada para o TeraBox
-    - name: Upload to TeraBox
-      run: |
-        rclone copy ./output/GbrlSouza-Ubuntu.iso terabox:/my-folder/
+      - name: Create ISO
+        run: |
+          mkdir -p /tmp/iso
+          cp -r ./path-to-files/* /tmp/iso
+          genisoimage -o /tmp/iso_output.iso -J -R /tmp/iso
+      
+      - name: Upload ISO as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-iso-file
+          path: /tmp/iso_output.iso
