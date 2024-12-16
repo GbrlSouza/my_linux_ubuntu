@@ -1,17 +1,17 @@
-# Fedora Custom ISO Builder - GbrlSouza
+# Ubuntu Custom ISO Builder - GbrlSouza
 
-Este repositório automatiza a criação de uma **ISO personalizada baseada no Fedora** com o nome **"GbrlSouza-Fedora.iso"**, usando o **GitHub Actions** para construção e o **TeraBox** para armazenamento do arquivo gerado.
+Este repositório automatiza a criação de uma **ISO personalizada baseada no Ubuntu** com o nome **"GbrlSouza-Ubuntu.iso"**, usando o **GitHub Actions** para construção e o **TeraBox** para armazenamento do arquivo gerado.
 
 ## Descrição
 
-O objetivo deste repositório é fornecer uma maneira simples e automatizada de gerar uma ISO personalizada do Fedora, incluindo um arquivo Kickstart para configuração personalizada. Após a construção da ISO, ela é automaticamente carregada para o **TeraBox**, permitindo que você baixe a ISO de qualquer lugar, sem se preocupar com os limites de armazenamento do GitHub.
+O objetivo deste repositório é fornecer uma maneira simples e automatizada de gerar uma ISO personalizada do Ubuntu, incluindo um arquivo Kickstart para configuração personalizada. Após a construção da ISO, ela é automaticamente carregada para o **TeraBox**, permitindo que você baixe a ISO de qualquer lugar, sem se preocupar com os limites de armazenamento do GitHub.
 
 ## Funcionalidades
 
-- Criação automatizada da ISO personalizada do Fedora via GitHub Actions.
-- Nome da ISO gerada: `GbrlSouza-Fedora.iso`.
+- Criação automatizada da ISO personalizada do Ubuntu via GitHub Actions.
+- Nome da ISO gerada: `GbrlSouza-Ubuntu.iso`.
 - Armazenamento da ISO no **TeraBox**, proporcionando maior espaço de armazenamento.
-- Personalização do Fedora por meio de arquivos **Kickstart**.
+- Personalização do Ubuntu por meio de arquivos **Kickstart**.
 
 ## Como Funciona
 
@@ -21,7 +21,7 @@ O objetivo deste repositório é fornecer uma maneira simples e automatizada de 
    - O arquivo `.github/workflows/build-iso.yml` é configurado para automatizar a criação da ISO e o upload para o TeraBox.
    
 2. **Arquivo Kickstart**:
-   - O arquivo `your-kickstart-file.ks` define a personalização do Fedora, incluindo pacotes, configurações de rede e usuário.
+   - O arquivo `your-kickstart-file.ks` define a personalização do Ubuntu, incluindo pacotes, configurações de rede e usuário.
    
 3. **GitHub Actions**:
    - O pipeline do GitHub Actions compila a ISO com base no arquivo Kickstart e depois envia o arquivo gerado para o TeraBox usando **Rclone**.
@@ -29,7 +29,7 @@ O objetivo deste repositório é fornecer uma maneira simples e automatizada de 
 ### Tecnologias Usadas
 
 - **GitHub Actions**: Para automação da criação da ISO e upload para o TeraBox.
-- **Fedora**: Sistema base para a ISO personalizada.
+- **Ubuntu**: Sistema base para a ISO personalizada.
 - **Rclone**: Para sincronização e upload da ISO para o TeraBox.
 - **TeraBox**: Armazenamento da ISO gerada.
 
@@ -39,7 +39,7 @@ O objetivo deste repositório é fornecer uma maneira simples e automatizada de 
 
 1. Clone este repositório para seu ambiente local:
    ```bash
-   git clone https://github.com/GbrlSouza/fedora-custom-iso.git
+   git clone https://github.com/GbrlSouza/ubuntu-custom-iso.git
    ```
 
 2. **Personalize o arquivo Kickstart** (`your-kickstart-file.ks`):
@@ -79,7 +79,7 @@ O objetivo deste repositório é fornecer uma maneira simples e automatizada de 
 
 2. **Acompanhe o Workflow**:
    - Acesse a aba **Actions** no GitHub para monitorar a execução do workflow.
-   - O GitHub Actions irá gerar a ISO personalizada com o nome `GbrlSouza-Fedora.iso`.
+   - O GitHub Actions irá gerar a ISO personalizada com o nome `GbrlSouza-Ubuntu.iso`.
 
 ### 3. Baixando a ISO
 
