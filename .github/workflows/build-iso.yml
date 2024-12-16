@@ -20,5 +20,5 @@ jobs:
 
       - name: Run your application or tests
         run: |
-          npm install
-          npm test
+          npx install
+          npx test
