@@ -1,4 +1,4 @@
-name: Create ISO
+name: Ubuntu CI Workflow
 
 on:
   push:
@@ -6,24 +6,19 @@ on:
       - main
 
 jobs:
-  create-iso:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install mkisofs
-        run: sudo apt-get install genisoimage
-
-      - name: Create ISO
+      - name: Install dependencies
         run: |
-          mkdir -p /tmp/iso
-          cp -r ./path-to-files/* /tmp/iso
-          genisoimage -o /tmp/iso_output.iso -J -R /tmp/iso
-      
-      - name: Upload ISO as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: my-iso-file
-          path: /tmp/iso_output.iso
+          sudo apt-get update
+          sudo apt-get install -y nodejs npm python3 python3-pip build-essential
+
+      - name: Run your application or tests
+        run: |
+          npm install
+          npm test
