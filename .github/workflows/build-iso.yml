@@ -1,0 +1,35 @@
+name: Build Fedora ISO
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y genisoimage python3-pip
+        pip install pykickstart
+        curl https://rclone.org/install.sh | sudo bash
+
+    - name: Configure Rclone
+      run: |
+        mkdir -p ~/.config/rclone
+        echo "${{ secrets.RCLONE_CONFIG }}" > ~/.config/rclone/rclone.conf
+
+    - name: Build the ISO
+      run: |
+        sudo mkdir output
+        sudo livemedia-creator --ks=your-kickstart-file.ks --no-virt --resultdir=./output --image-name="GbrlSouza-Fedora.iso"
+
+    - name: Upload to TeraBox
+      run: |
+        rclone copy ./output/GbrlSouza-Fedora.iso terabox:/my-folder/
